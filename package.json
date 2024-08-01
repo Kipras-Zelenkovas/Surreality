@@ -1,0 +1,16 @@
+{
+    "name": "surreality",
+    "version": "1.0.0",
+    "description": "SurrealDB orm to make life easier",
+    "main": "main.js",
+    "type": "module",
+    "scripts": {
+        "start": "node main.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Kipras Zelenkovas",
+    "license": "MIT",
+    "dependencies": {
+        "surrealdb.js": "^1.0.0-beta.9"
+    }
+}
