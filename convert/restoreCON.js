@@ -8,7 +8,7 @@ export const restoreCON = (id, opts) => {
                 ? `WHERE ${whereToSelect(opts.where)}`
                 : "";
 
-        const query = `UPDATE ${id} MERGE {timestamps: {deletedAt: ${DataTypes.NONE}}} ${condition} RETURN ${opts.return};`;
+        const query = `UPDATE ${id} MERGE {timestamps: {deleted_at: ${DataTypes.NONE}}} ${condition} RETURN ${opts.return};`;
 
         return query;
     } catch (err) {

@@ -23,10 +23,14 @@ export const casting = (opt) => {
         if (!opt && opt !== 0) {
             throw new Error("No data to cast");
         } else if (typeof opt === "string") {
+            // checks if the string is a record
             const record_opt_check = opt.slice(-21);
+            // checks if string is a database parameter
+            const param_opt_check = opt.split("$").length - 1;
+
             if (record_opt_check[0] === ":") {
                 return CASTING_TYPES.RECORD + `'${opt}'`;
-            } else if (opt[0] === "$") {
+            } else if (opt[0] === "$" && param_opt_check === 1) {
                 return `${opt}`;
             } else if (opt === "NONE") {
                 return `NONE`;

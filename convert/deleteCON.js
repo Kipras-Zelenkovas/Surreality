@@ -34,7 +34,7 @@ export const deleteCON = (id, opts) => {
         } else {
             const date = new Date().toISOString();
 
-            query = `UPDATE ${id} MERGE {timestamps: {deletedAt: <datetime>'${date}'}} ${condition} RETURN ${opts.return};`;
+            query = `UPDATE ${id} MERGE {timestamps: {deleted_at: <datetime>'${date}'}} ${condition} RETURN ${opts.return};`;
         }
 
         return query;

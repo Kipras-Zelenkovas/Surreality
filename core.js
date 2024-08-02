@@ -7,6 +7,7 @@ import { updateCON } from "./convert/updateCON.js";
 import { deleteCON } from "./convert/deleteCON.js";
 import { restoreCON } from "./convert/restoreCON.js";
 import { defineIndexCON } from "./convert/defineIndexCON.js";
+import { findOneCON } from "./convert/findOneCON.js";
 
 export class Surreality {
     constructor(surreal, table) {
@@ -116,9 +117,7 @@ export class Surreality {
      * @param {object} opts - Options for the query.
      * @param {Array<string>} [opts.fields] - Fields to select from the main table.
      * @param {Array<string>} [opts.exclude] - Fields to exclude from the select.
-     * @param {object} [opts.where] - Conditions for the where clause.
-     * @param {object} [opts.where.fields] - Fields and their values for where conditions.
-     * @param {string} [opts.where.operator] - Logical operator for combining where conditions ('AND' or 'OR').
+     * @param {{fields?: {value: any, operator?: string}, operator?: string}} [opts.where] - Conditions for the where clause.
      * @param {Array<{relation: string, fields?: Array<string>, where?: {fields?: object, operator?: string}}>} [opts.include] - Include related data from other tables.
      * @param {object} [opts.orderBy] - Fields and directions to order the results by.
      * @param {Array<string>} [opts.with] - Select with indexes.
@@ -189,6 +188,37 @@ export class Surreality {
             }
         } catch (err) {
             console.error("Failed to select all:", err);
+            throw err;
+        }
+    }
+
+    async findOne(
+        opts = {
+            fields: [],
+            exclude: [],
+            where: {},
+            include: [],
+            with: [],
+            force: false,
+        }
+    ) {
+        try {
+            const checkedOpts = {
+                fields: opts.fields != undefined ? opts.fields : [],
+                exclude: opts.exclude != undefined ? opts.exclude : [],
+                where: opts.where != undefined ? opts.where : {},
+                include: opts.include != undefined ? opts.include : [],
+                with: opts.with != undefined ? opts.with : [],
+                force: opts.force != undefined ? opts.force : false,
+            };
+
+            const query = findOneCON(this.table, checkedOpts);
+
+            const res = await this.surreal.query(query);
+
+            return res;
+        } catch (err) {
+            console.error("Failed to find one:", err);
             throw err;
         }
     }
