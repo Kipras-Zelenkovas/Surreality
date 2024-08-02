@@ -30,7 +30,7 @@ export class SurrealityManager {
             nameSpace: nameSpace != undefined ? nameSpace : "surrealism",
             database: database != undefined ? database : "surrealism",
             username: username != undefined ? username : "rrr",
-            password: password != undefined ? username : "rrr",
+            password: password != undefined ? password : "rrr",
         };
     }
 

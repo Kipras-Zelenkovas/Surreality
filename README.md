@@ -10,13 +10,9 @@ To install Surreality, simply run the following command:
 npm install surreality
 ```
 
-## Usage
+## Docs
 
-To use Surreality in your JavaScript project, you need to require it:
-
-```javascript
-const Surreality = require("surreality");
-```
+To-be-done
 
 ## Features
 

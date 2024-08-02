@@ -8,7 +8,8 @@ import { fieldsToSelect } from "../utils/SurrealQuering/selectFields.js";
  *
  * @param {string} table - The table to select from
  * @param {Object} opts - The selectAll options
- * @param {Array} opts.fields
+ * @param {Array<string>} opts.fields - The fields to select
+ * @param {Array<string>} opts.exclude - The fields to exclude
  * @param {{field: {value: any, operator: string} | string}} opts.where
  * @param {Array<{relation: string, fields: Array, where: {field: {value: any, operator: string | string}}}>} opts.include
  * @param {object} opts.orderBy
@@ -26,6 +27,8 @@ export const selectAllCON = (table, opts = {}) => {
         const mainFields =
             fieldsToSelect(opts.fields) +
             (include.fields.length > 0 ? `, ${include.fields}` : "");
+        const excludeFields =
+            opts.exclude.length > 0 ? ` OMIT ${opts.exclude.join(", ")}` : "";
 
         const mainCondition = whereToSelect(opts.where);
         const condition =
@@ -50,7 +53,7 @@ export const selectAllCON = (table, opts = {}) => {
         const limit = opts.limit ? `LIMIT ${opts.limit}` : "";
         const offset = opts.offset ? `START ${opts.offset}` : "";
 
-        return `SELECT ${mainFields} FROM ${table} ${withIndexes} ${
+        return `SELECT ${mainFields}${excludeFields} FROM ${table} ${withIndexes} ${
             condition != "" ? `WHERE ${condition}` : ""
         } ${orderBy} ${limit} ${offset}`;
     } catch (err) {

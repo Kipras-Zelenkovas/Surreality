@@ -11,17 +11,21 @@ import { fieldsToSelect } from "../utils/SurrealQuering/selectFields.js";
  * @param {any} opts.id - The id of the record
  * @param {Array} [opts.fields]
  * @param {{field: {value: any, operator: string} | string}} [opts.where]
+ * @param {Array<string>} [opts.exclude]
  * @param {Array<{relation: string, fields: Array, where: {field: {value: any, operator: string | string}}}>} [opts.include]
+ * @param {boolean} [opts.force]
  *
  * @returns {String} - The selectAll query string
  */
-export const findByPkCON = (table, opts = {}) => {
+export const findByPkCON = (opts = {}) => {
     try {
         const include = includeToSelect(opts.include);
 
         const mainFields =
             fieldsToSelect(opts.fields) +
             (include.fields.length > 0 ? `, ${include.fields}` : "");
+        const excludeFields =
+            opts.exclude.length > 0 ? ` OMIT ${opts.exclude.join(", ")}` : "";
 
         const mainCondition = whereToSelect(opts.where);
         const condition =
@@ -35,9 +39,9 @@ export const findByPkCON = (table, opts = {}) => {
                       mainCondition != "" || include.where != "" ? " AND " : ""
                   } timestamps.deleted_at IS NONE`);
 
-        return `SELECT ${mainFields} FROM ONLY ${
-            opts.id != undefined ? `${opts.id}` : table
-        } ${condition != "" ? `WHERE ${condition}` : ""} LIMIT 1`;
+        return `SELECT ${mainFields}${excludeFields} FROM ONLY ${opts.id} ${
+            condition != "" ? `WHERE ${condition}` : ""
+        } LIMIT 1`;
     } catch (err) {
         console.error("Failed to select by primary key:", err);
         throw err;
