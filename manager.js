@@ -221,6 +221,7 @@ export class SurrealityManager {
 
             const castedValue = casting(value);
 
+            console.log(`DEFINE PARAM $${name} VALUE ${castedValue}`);
             await this.surreal.query(
                 `DEFINE PARAM $${name} VALUE ${castedValue}`
             );

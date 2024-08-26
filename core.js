@@ -279,7 +279,7 @@ export class Surreality {
     }
 
     /**
-     * @param {object} data - The data to insert
+     * @param {{fields: any} | {fields: {data: any, as: string}}} data - The data to insert
      * @param {object} opts - The options for the insert
      * @param {any} [opts.id] - The id of the record
      * @param {number} [opts.timeout] - The timeout for the query
@@ -310,7 +310,8 @@ export class Surreality {
 
             const query = await createCON(this.table, data, checkedOpts);
 
-            const res = await this.surreal.query(query);
+            console.log(query);
+            // const res = await this.surreal.query(query);
 
             return res;
         } catch (err) {
@@ -322,7 +323,7 @@ export class Surreality {
     /**
      *
      * @param {string} id
-     * @param {object} data
+     * @param {{fields: any} | {fields: {data: any, as: string}}} data
      * @param {object} opts
      * @param {string | "MERGE" | "CONTENT" | "SET"} opts.type
      * @param {object} opts.where

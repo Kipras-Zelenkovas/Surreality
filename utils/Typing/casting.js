@@ -20,7 +20,45 @@ const CASTING_TYPES = {
  */
 export const casting = (opt) => {
     try {
-        if (!opt && opt !== 0) {
+        if (opt.data != undefined && opt.as != undefined) {
+            if (opt.as === "bool") {
+                return CASTING_TYPES.BOOL + `'${opt.data}'`;
+            } else if (opt.as === "int") {
+                return CASTING_TYPES.INT + `'${opt.data}'`;
+            } else if (opt.as === "float") {
+                return CASTING_TYPES.FLOAT + `'${opt.data}'`;
+            } else if (opt.as === "string") {
+                return CASTING_TYPES.STRING + `'${opt.data}'`;
+            } else if (opt.as === "number") {
+                return CASTING_TYPES.NUMBER + `'${opt.data}'`;
+            } else if (opt.as === "decimal") {
+                return CASTING_TYPES.DECIMAL + `'${opt.data}'`;
+            } else if (opt.as === "datetime") {
+                return CASTING_TYPES.DATETIME + `'${opt.data}'`;
+            } else if (opt.as === "duration") {
+                return CASTING_TYPES.DURATION + `'${opt.data}'`;
+            } else if (opt.as === "array") {
+                const castedArr = opt.data.map((item) => {
+                    return casting(item);
+                });
+
+                return `[${castedArr.join(", ")}]`;
+            } else if (opt.as === "record") {
+                return CASTING_TYPES.RECORD + `'${opt.data}'`;
+            } else if (opt.as === "object") {
+                const keys = Object.keys(opt.data);
+
+                const castedObj = keys.map((key) => {
+                    return `${key}: ${casting(opt.data[key])}`;
+                });
+
+                return `{${castedObj.join(", ")}}`;
+            }
+        }
+
+        if (opt === null || opt === undefined || opt === "") {
+            return `NONE`;
+        } else if (!opt && opt !== 0 && opt !== undefined) {
             throw new Error("No data to cast");
         } else if (typeof opt === "string") {
             // checks if the string is a record
