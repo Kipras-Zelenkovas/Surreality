@@ -20,8 +20,20 @@ const CASTING_TYPES = {
  */
 export const casting = (opt) => {
     try {
-        if (opt.data != undefined && opt.as != undefined) {
-            if (opt.as === "bool") {
+        if (
+            opt !== undefined &&
+            (opt.data != undefined || opt.as != undefined)
+        ) {
+            if (
+                opt.data === undefined ||
+                opt.data === null ||
+                opt.data === "" ||
+                opt === null ||
+                opt === undefined ||
+                opt === ""
+            ) {
+                return `NONE`;
+            } else if (opt.as === "bool") {
                 return CASTING_TYPES.BOOL + `'${opt.data}'`;
             } else if (opt.as === "int") {
                 return CASTING_TYPES.INT + `'${opt.data}'`;
@@ -54,10 +66,6 @@ export const casting = (opt) => {
 
                 return `{${castedObj.join(", ")}}`;
             }
-        }
-
-        if (opt === null || opt === undefined || opt === "") {
-            return `NONE`;
         } else if (!opt && opt !== 0 && opt !== undefined) {
             throw new Error("No data to cast");
         } else if (typeof opt === "string") {
