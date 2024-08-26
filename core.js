@@ -310,8 +310,7 @@ export class Surreality {
 
             const query = await createCON(this.table, data, checkedOpts);
 
-            console.log(query);
-            // const res = await this.surreal.query(query);
+            const res = await this.surreal.query(query);
 
             return res;
         } catch (err) {
