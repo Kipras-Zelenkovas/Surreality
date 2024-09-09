@@ -34,21 +34,21 @@ export const casting = (opt) => {
             ) {
                 return `NONE`;
             } else if (opt.as === "bool") {
-                return CASTING_TYPES.BOOL + `'${opt.data}'`;
+                return CASTING_TYPES.BOOL + `"${opt.data}"`;
             } else if (opt.as === "int") {
-                return CASTING_TYPES.INT + `'${opt.data}'`;
+                return CASTING_TYPES.INT + `"${opt.data}"`;
             } else if (opt.as === "float") {
-                return CASTING_TYPES.FLOAT + `'${opt.data}'`;
+                return CASTING_TYPES.FLOAT + `"${opt.data}"`;
             } else if (opt.as === "string") {
-                return CASTING_TYPES.STRING + `'${opt.data}'`;
+                return CASTING_TYPES.STRING + `"${opt.data}"`;
             } else if (opt.as === "number") {
-                return CASTING_TYPES.NUMBER + `'${opt.data}'`;
+                return CASTING_TYPES.NUMBER + `"${opt.data}"`;
             } else if (opt.as === "decimal") {
-                return CASTING_TYPES.DECIMAL + `'${opt.data}'`;
+                return CASTING_TYPES.DECIMAL + `"${opt.data}"`;
             } else if (opt.as === "datetime") {
-                return CASTING_TYPES.DATETIME + `'${opt.data}'`;
+                return CASTING_TYPES.DATETIME + `"${opt.data}"`;
             } else if (opt.as === "duration") {
-                return CASTING_TYPES.DURATION + `'${opt.data}'`;
+                return CASTING_TYPES.DURATION + `"${opt.data}"`;
             } else if (opt.as === "array") {
                 const castedArr = opt.data.map((item) => {
                     return casting(item);
@@ -56,7 +56,7 @@ export const casting = (opt) => {
 
                 return `[${castedArr.join(", ")}]`;
             } else if (opt.as === "record") {
-                return CASTING_TYPES.RECORD + `'${opt.data}'`;
+                return CASTING_TYPES.RECORD + `"${opt.data}"`;
             } else if (opt.as === "object") {
                 const keys = Object.keys(opt.data);
 
@@ -67,7 +67,7 @@ export const casting = (opt) => {
                 return `{${castedObj.join(", ")}}`;
             }
         } else if (!opt && opt !== 0 && opt !== undefined) {
-            throw new Error("No data to cast");
+            return "NONE";
         } else if (typeof opt === "string") {
             // checks if the string is a record
             const record_opt_check = opt.slice(-21);
@@ -75,7 +75,7 @@ export const casting = (opt) => {
             const param_opt_check = opt.split("$").length - 1;
 
             if (record_opt_check[0] === ":") {
-                return CASTING_TYPES.RECORD + `'${opt}'`;
+                return CASTING_TYPES.RECORD + `"${opt}"`;
             } else if (opt[0] === "$" && param_opt_check === 1) {
                 return `${opt}`;
             } else if (opt === "NONE") {
@@ -85,19 +85,19 @@ export const casting = (opt) => {
                 opt.includes("Z") &&
                 opt.includes("-")
             ) {
-                return CASTING_TYPES.DATETIME + `'${opt}'`;
+                return CASTING_TYPES.DATETIME + `"${opt}"`;
             } else {
-                return CASTING_TYPES.STRING + `'${opt}'`;
+                return CASTING_TYPES.STRING + `"${opt}"`;
             }
         } else if (typeof opt === "number") {
             const new_opt = opt.toString();
             if (new_opt.includes(".")) {
-                return CASTING_TYPES.FLOAT + `'${new_opt}'`;
+                return CASTING_TYPES.FLOAT + `"${new_opt}"`;
             } else {
-                return CASTING_TYPES.INT + `'${new_opt}'`;
+                return CASTING_TYPES.INT + `"${new_opt}"`;
             }
         } else if (typeof opt === "boolean") {
-            return CASTING_TYPES.BOOL + `'${opt}'`;
+            return CASTING_TYPES.BOOL + `"${opt}"`;
         } else if (Array.isArray(opt)) {
             const castedArr = opt.map((item) => {
                 return casting(item);

@@ -17,7 +17,10 @@ export const whereToSelect = (where = {}, relation = "") => {
 
         const keys = Object.keys(where);
         const conditions = keys.map((key) => {
-            if (typeof where[key] !== "object") {
+            if (where[key].as !== undefined) {
+                const val = casting(where[key]);
+                return `${relation != "" ? relation + "." : ""}${key} = ${val}`;
+            } else if (typeof where[key] !== "object") {
                 const val = casting(where[key]);
                 return `${relation != "" ? relation + "." : ""}${key} = ${val}`;
             } else {
