@@ -1,6 +1,6 @@
 {
     "name": "surreality",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "description": "SurrealDB orm to make life easier",
     "main": "main.js",
     "type": "module",
