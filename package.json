@@ -11,6 +11,6 @@
     "author": "Kipras Zelenkovas",
     "license": "MIT",
     "dependencies": {
-        "surrealdb.js": "^1.0.0-beta.9"
+        "surrealdb": "^1.0.0-beta.21"
     }
 }

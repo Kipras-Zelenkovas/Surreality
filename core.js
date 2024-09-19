@@ -54,7 +54,6 @@ export class Surreality {
                     console.log("Table already exists");
                 } else {
                     console.error("Failed to define table:", err);
-                    throw err;
                 }
             }
 
@@ -62,7 +61,6 @@ export class Surreality {
                 await this.surreal.query(queries.fieldsQuery.join(""));
             } catch (err) {
                 console.error("Failed to define fields:", err);
-                throw err;
             }
 
             try {
@@ -73,10 +71,10 @@ export class Surreality {
                 }
             } catch (err) {
                 console.error("Failed to define indexed fields:", err);
-                throw err;
             }
         } catch (err) {
             console.error("Failed to define table:", err);
+            throw err;
         }
     }
 
@@ -335,7 +333,7 @@ export class Surreality {
      * @description Updates the record with the given id with the given data
      *
      * @default
-     * opts.type = "MERGE"
+     * opts.type = "SET"
      * opts.where = {}
      * opts.return = "NONE"
      * opts.force = false
@@ -344,7 +342,7 @@ export class Surreality {
         id = "",
         data = {},
         opts = {
-            type: "MERGE",
+            type: "SET",
             where: {},
             return: DataTypes.NONE,
             force: false,
@@ -358,7 +356,7 @@ export class Surreality {
             const checkedId = id === "" ? this.table : id;
 
             const checkedOpts = {
-                type: opts.type != undefined ? opts.type : "MERGE",
+                type: opts.type != undefined ? opts.type : "SET",
                 where: opts.where != undefined ? opts.where : {},
                 return: opts.return != undefined ? opts.return : DataTypes.NONE,
                 false: opts.force != undefined ? opts.force : false,

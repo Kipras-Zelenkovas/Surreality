@@ -1,4 +1,4 @@
-import { Surreal } from "surrealdb.js";
+import { Surreal } from "surrealdb";
 import { casting } from "./utils/Typing/casting.js";
 
 export class SurrealityManager {

@@ -96,10 +96,10 @@ export const defineTableCON = async (table, type, schema, relation = {}) => {
          * Add timestamp fields to the table if the schema does not have them as object
          */
         fieldsQuery.push(
-            `DEFINE FIELD timestamps ON TABLE ${table} FLEXIBLE TYPE option<object>;`
+            `DEFINE FIELD timestamps ON role FLEXIBLE TYPE object DEFAULT {} PERMISSIONS FULL;`
         );
         fieldsQuery.push(
-            `DEFINE FIELD timestamps.created_at ON TABLE ${table} TYPE option<datetime> VALUE time::now() READONLY;`
+            `DEFINE FIELD timestamps.created_at ON TABLE ${table} TYPE datetime VALUE time::now() READONLY;`
         );
         fieldsQuery.push(
             `DEFINE FIELD timestamps.updated_at ON TABLE ${table} TYPE datetime VALUE time::now();`
