@@ -58,7 +58,7 @@ export const defineTableCON = async (table, type, schema, relation = {}) => {
 
                     return `DEFINE FIELD ${field} ON TABLE ${table} TYPE ${
                         schema[field].optional === true ? "option<" : ""
-                    }"array<${dataType}>"${
+                    }array<${dataType}>${
                         schema[field].optional === true ? ">" : ""
                     };`;
                 } else {
