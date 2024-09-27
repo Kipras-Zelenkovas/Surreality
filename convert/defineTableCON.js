@@ -29,7 +29,7 @@ export const defineTableCON = async (table, type, schema, relation = {}) => {
          * The fieldsQuery is an array of strings that represent the fields of the table.
          * The fields are defined based on the schema provided.
          * If the schema is an object, the field is defined as a flexible type ALWAYS.
-         * If the schema is an array, the field is defined as a any TYPE ALWAYS.
+         * If the schema is an array, the field is defined as a any type that is specified as dataType.
          *
          * 2 main ways of defininf fields:
          * 1. Schema has one property with the type of the field. Example: {name: DataTypes.STRING}
@@ -50,6 +50,17 @@ export const defineTableCON = async (table, type, schema, relation = {}) => {
                             ? "option<record<" + schema[field].table + ">>"
                             : `${schema[field].type}<${schema[field].table}>`
                     }${schema[field].readOnly === true ? " READONLY" : ""};`;
+                } else if (schema[field].type === "array") {
+                    let dataType =
+                        schema[field].dataType === "record"
+                            ? "record<" + schema[field].table + ">"
+                            : schema[field].dataType;
+
+                    return `DEFINE FIELD ${field} ON TABLE ${table} TYPE ${
+                        schema[field].optional === true ? "option<" : ""
+                    }"array<${dataType}>"${
+                        schema[field].optional === true ? ">" : ""
+                    };`;
                 } else {
                     return `DEFINE FIELD ${field} ON TABLE ${table}${
                         schema[field].type === "object" ? " FLEXIBLE" : ""
