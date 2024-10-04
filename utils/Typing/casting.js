@@ -51,7 +51,7 @@ export const casting = (opt) => {
                 return CASTING_TYPES.DURATION + `"${opt.data}"`;
             } else if (opt.as === "array") {
                 const castedArr = opt.data.map((item) => {
-                    return casting(item);
+                    return casting({ data: item, as: opt.dataAs });
                 });
 
                 return `[${castedArr.join(", ")}]`;
@@ -61,7 +61,10 @@ export const casting = (opt) => {
                 const keys = Object.keys(opt.data);
 
                 const castedObj = keys.map((key) => {
-                    return `${key}: ${casting(opt.data[key])}`;
+                    return `${key}: ${casting({
+                        data: opt.data[key],
+                        as: opt.dataAs,
+                    })}`;
                 });
 
                 return `{${castedObj.join(", ")}}`;
