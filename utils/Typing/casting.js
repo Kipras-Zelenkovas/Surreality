@@ -20,10 +20,7 @@ const CASTING_TYPES = {
  */
 export const casting = (opt) => {
     try {
-        if (
-            opt !== undefined &&
-            (opt.data != undefined || opt.as != undefined)
-        ) {
+        if (opt !== undefined && opt.data != undefined && opt.as != undefined) {
             if (
                 opt.data === undefined ||
                 opt.data === null ||
